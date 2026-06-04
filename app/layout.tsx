@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { clerkDarkTheme } from "@/lib/clerk-theme";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { Button } from "@/components/ui/button";
 
@@ -33,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClerkProvider>
+        <ClerkProvider appearance={{ theme: clerkDarkTheme }}>
           <header className="flex justify-between items-center p-4 gap-4 h-16">
             <h1 className="text-2xl font-bold">Link Shortener</h1>
             <div className="flex items-center gap-4">
