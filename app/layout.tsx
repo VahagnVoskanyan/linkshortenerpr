@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { clerkDarkTheme } from "@/lib/clerk-theme";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { Button } from "@/components/ui/button";
+import { SignInModal } from "@/components/auth/sign-in-modal";
+import { SignUpModal } from "@/components/auth/sign-up-modal";
 
 
 
@@ -34,7 +36,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClerkProvider appearance={{ theme: clerkDarkTheme }}>
+        <ClerkProvider 
+          appearance={{ theme: clerkDarkTheme }}
+          signInFallbackRedirectUrl="/dashboard"
+          signUpFallbackRedirectUrl="/dashboard"
+        >
           <header className="flex justify-between items-center p-4 gap-4 h-16">
             <h1 className="text-2xl font-bold">Link Shortener</h1>
             <div className="flex items-center gap-4">

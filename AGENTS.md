@@ -120,6 +120,17 @@ return NextResponse.json(
 );
 ```
 
+### 7. ⚠️ NEVER Use `middleware.ts`
+`middleware.ts` is **deprecated in Next.js 16** and should **NEVER** be used in this project. Use `proxy.ts` instead for request interception and routing logic.
+
+```typescript
+// ❌ WRONG - middleware.ts is deprecated
+export function middleware(request: NextRequest) { }
+
+// ✅ CORRECT - use proxy.ts
+// See proxy.ts in the project root for implementation
+```
+
 ## 📖 Development Workflow
 
 
