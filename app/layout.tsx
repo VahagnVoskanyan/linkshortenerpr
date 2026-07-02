@@ -7,6 +7,7 @@ import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@cl
 import { Button } from "@/components/ui/button";
 import { SignInModal } from "@/components/auth/sign-in-modal";
 import { SignUpModal } from "@/components/auth/sign-up-modal";
+import { Toaster } from 'sonner';
 
 
 
@@ -58,6 +59,7 @@ export default function RootLayout({
             </div>
           </header>
           {children}
+          <Toaster richColors position="top-right" />
         </ClerkProvider>
       </body>
     </html>

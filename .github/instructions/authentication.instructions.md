@@ -1,3 +1,7 @@
+---
+description: Read this before implementing or modifying authentication in the project.
+---
+
 # Authentication Guide
 
 All authentication in this project is handled exclusively by **Clerk**. No other authentication methods should be implemented.

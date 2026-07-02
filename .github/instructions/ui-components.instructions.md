@@ -1,6 +1,10 @@
+---
+description: Read this before implementing or modifying UI components in the project.
+---
+
 # shadcn UI Components Guide
 
-All UI elements in this application use **shadcn/ui** components. Do NOT create custom components—always use shadcn/ui.
+All UI elements in this application use **shadcn/ui** components. Do NOT create custom components when shadcn/ui provides an equivalent.
 
 ## Core Principles
 

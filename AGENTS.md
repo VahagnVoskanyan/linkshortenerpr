@@ -4,21 +4,6 @@
 >
 > This is a comprehensive guide for LLMs working on this project. Read the entire overview below, then consult specific guides as needed.
 
-## ⚠️ CRITICAL: READ DOCS FIRST
-
-**BEFORE GENERATING ANY CODE**, you MUST read the relevant individual instructions file from the `/docs` directory. This is non-negotiable. Each guide in `/docs` contains essential patterns, best practices, and anti-patterns specific to that feature area.
-
-For detailed guidelines on specific topics, refer to the modular documentation in the `/docs` directory. ALWAYS refer to the relevant `.md` file BEFORE generating any code:
-
-## 📋 Quick Reference
-
-| Guide | Purpose | When to Use |
-|-------|---------|-------------|
-| [Authentication](/docs/authentication.md) | Clerk auth setup, protected routes, sign in/up modals | Implementing login flows, protecting routes, user sessions |
-| [shadcn/ui Components](/docs/shadcn-ui.md) | Using shadcn/ui for all UI elements, installation, best practices | Building any UI, creating buttons/inputs/modals, styling components |
-
-
-
 ## 🎯 Project Overview
 
 **Project**: Link Shortener  
@@ -41,7 +26,6 @@ For detailed guidelines on specific topics, refer to the modular documentation i
 ├── db/              # Database schema & config
 ├── lib/             # Utilities & business logic
 ├── public/          # Static assets
-├── docs/            # This agent instructions guide
 └── (config files)
 ```
 
@@ -127,24 +111,11 @@ return NextResponse.json(
 // ❌ WRONG - middleware.ts is deprecated
 export function middleware(request: NextRequest) { }
 
-// ✅ CORRECT - use proxy.ts
+// ✅ CORRECT - use proxy.ts (project convention)
 // See proxy.ts in the project root for implementation
 ```
 
 ## 📖 Development Workflow
-
-
-### When Starting a New Feature
-
-
-
-### When Working with APIs
-
-
-
-### When Styling Components
-
-
 
 ### When Modifying Database
 
@@ -231,11 +202,6 @@ export function MyComponent({ title, onSubmit }: MyComponentProps) {
 
 ## 📚 Detailed Guides
 
-**MANDATORY**: Each guide is organized by topic and includes core principles, examples (✅ good, ❌ bad), best practices, common patterns, and anti-patterns. **You MUST consult the relevant guide before writing any code for that feature.** Do NOT skip this step.
-
-- [Authentication](/docs/authentication.md) - **READ FIRST before implementing any auth features**
-- [shadcn/ui Components](/docs/shadcn-ui.md) - **READ FIRST before building any UI**
-
 Always start with the relevant guide for your task instead of asking general questions or making assumptions.
 
 ## 🐛 Debugging Tips
@@ -244,10 +210,9 @@ Always start with the relevant guide for your task instead of asking general que
 ## 🤝 Contributing
 
 When updating these guidelines:
-1. Update the relevant `.md` file in `/docs`
-2. Update the table in this file if adding new guides
-3. Keep examples concise and focused
-4. Always show ✅ good and ❌ bad patterns
+1. Update the table in this file if adding new guides
+2. Keep examples concise and focused
+3. Always show ✅ good and ❌ bad patterns
 
 ---
 
