@@ -70,7 +70,7 @@ export function CreateLinkModal({ triggerLabel = '+ Create Link' }: CreateLinkMo
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={<Button className="bg-primary hover:bg-primary/90" />}>
+      <DialogTrigger render={<Button />}>
         {triggerLabel}
       </DialogTrigger>
       <DialogContent>

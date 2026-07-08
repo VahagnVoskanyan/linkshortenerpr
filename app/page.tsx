@@ -141,7 +141,7 @@ export default async function Home() {
                 },
               ].map((item) => (
                 <div key={item.step} className="space-y-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-black flex items-center justify-center text-lg font-bold mx-auto">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold mx-auto">
                     {item.step}
                   </div>
                   <h3 className="text-lg font-semibold">{item.title}</h3>
