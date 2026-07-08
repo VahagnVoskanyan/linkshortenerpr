@@ -29,26 +29,26 @@ Always use path aliases:
 
 ```typescript
 // ✅ GOOD
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 // ❌ BAD
-import Button from '../../../components/ui/button';
+import Button from "../../../components/ui/button";
 ```
 
 ## Common Components
 
-| Component | Use Case |
-|-----------|----------|
-| `Button` | Actions, form submissions, navigation |
-| `Input` | Text input, URLs, search fields |
-| `Select` | Dropdowns, option selection |
-| `Dialog` | Modals, confirmations, forms |
-| `Card` | Content containers, layouts |
-| `Label` | Form labels, descriptions |
-| `Badge` | Status, tags, categories |
-| `Alert` | Notifications, warnings, errors |
-| `Skeleton` | Loading placeholders |
+| Component  | Use Case                              |
+| ---------- | ------------------------------------- |
+| `Button`   | Actions, form submissions, navigation |
+| `Input`    | Text input, URLs, search fields       |
+| `Select`   | Dropdowns, option selection           |
+| `Dialog`   | Modals, confirmations, forms          |
+| `Card`     | Content containers, layouts           |
+| `Label`    | Form labels, descriptions             |
+| `Badge`    | Status, tags, categories              |
+| `Alert`    | Notifications, warnings, errors       |
+| `Skeleton` | Loading placeholders                  |
 
 ## Best Practices
 
@@ -87,12 +87,14 @@ function MyButton() {
 ## Tailwind Customization
 
 Shadcn/ui respects Tailwind configuration. Customize theme in:
+
 - `tailwind.config.ts` — Colors, spacing, typography
 - `globals.css` — Global styles and CSS variables
 
 ## When to Create a Component
 
 Only create a wrapper component if:
+
 - Combining multiple shadcn components with shared logic
 - Handling application-specific behavior (not UI reuse)
 

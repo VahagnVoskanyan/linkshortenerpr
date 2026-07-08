@@ -9,6 +9,7 @@ All authentication in this project is handled exclusively by **Clerk**. No other
 ## 🔑 Clerk Configuration
 
 Clerk is configured via environment variables:
+
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Public key for Clerk
 - `CLERK_SECRET_KEY` - Secret key for server-side operations
 
@@ -17,6 +18,7 @@ These are used in the app layout and API routes. Refer to [Clerk documentation](
 ## 🛡️ Protected Routes
 
 ### /dashboard Route
+
 The `/dashboard` page is a **protected route** that requires user authentication. Use Clerk's middleware to enforce this protection:
 
 ```typescript
@@ -26,16 +28,17 @@ import { redirect } from 'next/navigation';
 
 export default async function DashboardLayout() {
   const { userId } = await auth();
-  
+
   if (!userId) {
     redirect('/');
   }
-  
+
   return <>{/* dashboard content */}</>;
 }
 ```
 
 ### Homepage Redirect Logic
+
 If a user is already logged in and visits the homepage (`/`), they should be redirected to `/dashboard`:
 
 ```typescript
@@ -45,11 +48,11 @@ import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const { userId } = await auth();
-  
+
   if (userId) {
     redirect('/dashboard');
   }
-  
+
   return <>{/* homepage content for guests */}</>;
 }
 ```
@@ -57,6 +60,7 @@ export default async function Home() {
 ## 🔐 Sign In & Sign Up
 
 ### Modal Implementation
+
 Sign in and sign up flows **must always launch as modals**, not full-page redirects. Use Clerk's modal components:
 
 ```typescript
@@ -67,7 +71,7 @@ import { SignIn } from '@clerk/nextjs';
 
 export function SignInModal() {
   return (
-    <SignIn 
+    <SignIn
       appearance={{ elements: { rootBox: 'w-full' } }}
       fallbackRedirectUrl="/dashboard"
     />
@@ -83,7 +87,7 @@ import { SignUp } from '@clerk/nextjs';
 
 export function SignUpModal() {
   return (
-    <SignUp 
+    <SignUp
       appearance={{ elements: { rootBox: 'w-full' } }}
       fallbackRedirectUrl="/dashboard"
     />
@@ -92,6 +96,7 @@ export function SignUpModal() {
 ```
 
 ### Using the `<SignInButton>` and `<SignUpButton>` Components
+
 Clerk provides convenient button components that open modals:
 
 ```typescript
@@ -113,6 +118,7 @@ export function AuthButtons() {
 ```
 
 ### Accessing Current User Information
+
 Use Clerk's hooks and server functions to get user data:
 
 ```typescript
@@ -121,7 +127,7 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 
 export async function UserCard() {
   const user = await currentUser();
-  
+
   return <div>Welcome, {user?.firstName}!</div>;
 }
 ```
@@ -134,7 +140,7 @@ import { useUser } from '@clerk/nextjs';
 
 export function UserProfile() {
   const { user } = useUser();
-  
+
   return <div>Email: {user?.emailAddresses[0].emailAddress}</div>;
 }
 ```

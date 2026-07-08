@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,12 +11,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { deleteLinkAction, updateLinkAction } from '@/components/links/actions';
-import { updateLinkSchema } from '@/lib/validators/links';
-import { Pencil, Trash2 } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { deleteLinkAction, updateLinkAction } from "@/components/links/actions";
+import { updateLinkSchema } from "@/lib/validators/links";
+import { Pencil, Trash2 } from "lucide-react";
 
 interface LinkItemActionsProps {
   id: number;
@@ -24,7 +24,11 @@ interface LinkItemActionsProps {
   shortCode: string;
 }
 
-export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsProps) {
+export function LinkItemActions({
+  id,
+  originalUrl,
+  shortCode,
+}: LinkItemActionsProps) {
   const router = useRouter();
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -68,7 +72,7 @@ export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsP
     });
 
     if (!parsed.success) {
-      setEditError(parsed.error.issues[0]?.message ?? 'Invalid input');
+      setEditError(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
     }
 
@@ -81,7 +85,7 @@ export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsP
     setIsSubmittingEdit(false);
 
     if (!result.success) {
-      setEditError(result.error ?? 'Failed to update link');
+      setEditError(result.error ?? "Failed to update link");
       return;
     }
 
@@ -96,7 +100,7 @@ export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsP
     setIsDeleting(false);
 
     if (!result.success) {
-      setDeleteError(result.error ?? 'Failed to delete link');
+      setDeleteError(result.error ?? "Failed to delete link");
       return;
     }
 
@@ -125,7 +129,9 @@ export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsP
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Link</DialogTitle>
-            <DialogDescription>Update the destination URL or short code for this link.</DialogDescription>
+            <DialogDescription>
+              Update the destination URL or short code for this link.
+            </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleEditSubmit} className="grid gap-4">
@@ -153,15 +159,18 @@ export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsP
                 disabled={isSubmittingEdit}
               />
               <p className="text-xs text-muted-foreground">
-                Use up to 20 characters: letters, numbers, hyphens, and underscores.
+                Use up to 20 characters: letters, numbers, hyphens, and
+                underscores.
               </p>
             </div>
 
-            {editError && <p className="text-sm text-destructive">{editError}</p>}
+            {editError && (
+              <p className="text-sm text-destructive">{editError}</p>
+            )}
 
             <DialogFooter>
               <Button type="submit" disabled={isSubmittingEdit || !url}>
-                {isSubmittingEdit ? 'Saving...' : 'Save Changes'}
+                {isSubmittingEdit ? "Saving..." : "Save Changes"}
               </Button>
             </DialogFooter>
           </form>
@@ -188,18 +197,29 @@ export function LinkItemActions({ id, originalUrl, shortCode }: LinkItemActionsP
           <DialogHeader>
             <DialogTitle>Delete Link</DialogTitle>
             <DialogDescription>
-              This will permanently delete the short link <span className="font-medium">{shortCode}</span>.
+              This will permanently delete the short link{" "}
+              <span className="font-medium">{shortCode}</span>.
             </DialogDescription>
           </DialogHeader>
 
-          {deleteError && <p className="text-sm text-destructive">{deleteError}</p>}
+          {deleteError && (
+            <p className="text-sm text-destructive">{deleteError}</p>
+          )}
 
           <DialogFooter>
-            <Button variant="outline" disabled={isDeleting} onClick={() => setDeleteOpen(false)}>
+            <Button
+              variant="outline"
+              disabled={isDeleting}
+              onClick={() => setDeleteOpen(false)}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" disabled={isDeleting} onClick={handleDeleteConfirm}>
-              {isDeleting ? 'Deleting...' : 'Yes, Delete'}
+            <Button
+              variant="destructive"
+              disabled={isDeleting}
+              onClick={handleDeleteConfirm}
+            >
+              {isDeleting ? "Deleting..." : "Yes, Delete"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -10,6 +10,7 @@
 **Purpose**: Convert long URLs into short, shareable links
 
 ### Tech Stack
+
 - **Framework**: Next.js 16.2.6 (App Router)
 - **Language**: TypeScript 5 (strict mode)
 - **UI Framework**: React 19.2.4
@@ -19,6 +20,7 @@
 - **Linting**: ESLint 9
 
 ### Key Directory Structure
+
 ```
 .
 ├── app/              # Next.js App Router (pages & layouts)
@@ -32,17 +34,19 @@
 ## ⚠️ Critical Rules
 
 ### 1. No `any` Types in TypeScript
+
 All code must have explicit types. This is a strict TypeScript project (`"strict": true`).
 
 ```typescript
 // ✅ GOOD
-function getLink(id: string): Promise<Link | null> { }
+function getLink(id: string): Promise<Link | null> {}
 
 // ❌ BAD
-function getLink(id: any): Promise<any> { }
+function getLink(id: any): Promise<any> {}
 ```
 
 ### 2. Always Check Next.js 16 Docs First
+
 This project has breaking changes from Next.js 13-15. **Read the official docs** in `node_modules/next/dist/docs/` before implementing features.
 
 ```
@@ -51,25 +55,29 @@ This project has breaking changes from Next.js 13-15. **Read the official docs**
 ```
 
 ### 3. Server Components by Default
+
 Next.js 16 uses Server Components by default. Only add `'use client'` when needed:
+
 - Event handlers (form submission, clicks)
 - React hooks (useState, useEffect, etc.)
 - Browser APIs
 
 ### 4. Use Path Aliases
+
 Always use `@/*` aliases for imports, never relative paths:
 
 ```typescript
 // ✅ GOOD
-import Button from '@/components/ui/button';
-import { validateUrl } from '@/lib/utils';
+import Button from "@/components/ui/button";
+import { validateUrl } from "@/lib/utils";
 
 // ❌ BAD
-import Button from '../../../components/ui/button';
-import { validateUrl } from '../../../../lib/utils';
+import Button from "../../../components/ui/button";
+import { validateUrl } from "../../../../lib/utils";
 ```
 
 ### 5. Database Logic in Utilities
+
 Database operations belong in `lib/` not in components or API routes directly.
 
 ```typescript
@@ -88,6 +96,7 @@ export async function POST(req: NextRequest) {
 ```
 
 ### 6. Consistent Response Format
+
 API responses should follow a consistent structure:
 
 ```typescript
@@ -95,21 +104,22 @@ API responses should follow a consistent structure:
 return NextResponse.json({
   success: true,
   data: link,
-  message: 'Link created',
+  message: "Link created",
 });
 
 return NextResponse.json(
-  { success: false, error: { code: 'ERROR_CODE', message: 'msg' } },
+  { success: false, error: { code: "ERROR_CODE", message: "msg" } },
   { status: 400 },
 );
 ```
 
 ### 7. ⚠️ NEVER Use `middleware.ts`
+
 `middleware.ts` is **deprecated in Next.js 16** and should **NEVER** be used in this project. Use `proxy.ts` instead for request interception and routing logic.
 
 ```typescript
 // ❌ WRONG - middleware.ts is deprecated
-export function middleware(request: NextRequest) { }
+export function middleware(request: NextRequest) {}
 
 // ✅ CORRECT - use proxy.ts (project convention)
 // See proxy.ts in the project root for implementation
@@ -206,10 +216,10 @@ Always start with the relevant guide for your task instead of asking general que
 
 ## 🐛 Debugging Tips
 
-
 ## 🤝 Contributing
 
 When updating these guidelines:
+
 1. Update the table in this file if adding new guides
 2. Keep examples concise and focused
 3. Always show ✅ good and ❌ bad patterns

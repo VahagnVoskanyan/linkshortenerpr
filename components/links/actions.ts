@@ -1,7 +1,12 @@
-'use server';
+"use server";
 
-import { auth } from '@clerk/nextjs/server';
-import { createLink, deleteLink, getUserLinkById, updateLink } from '@/lib/links';
+import { auth } from "@clerk/nextjs/server";
+import {
+  createLink,
+  deleteLink,
+  getUserLinkById,
+  updateLink,
+} from "@/lib/links";
 import {
   createLinkSchema,
   deleteLinkSchema,
@@ -9,7 +14,7 @@ import {
   type CreateLinkInput,
   type DeleteLinkInput,
   type UpdateLinkInput,
-} from '@/lib/validators/links';
+} from "@/lib/validators/links";
 
 type ActionResult = {
   success: boolean;
@@ -23,20 +28,22 @@ type DeleteActionResult = {
   data?: { id: number };
 };
 
-export async function createLinkAction(input: CreateLinkInput): Promise<ActionResult> {
+export async function createLinkAction(
+  input: CreateLinkInput,
+): Promise<ActionResult> {
   // Verify authentication
   const { userId } = await auth();
   if (!userId) {
     return {
       success: false,
-      error: 'You must be logged in to create a link',
+      error: "You must be logged in to create a link",
     };
   }
 
   // Validate input
   const parsed = createLinkSchema.safeParse(input);
   if (!parsed.success) {
-    const errorMessage = parsed.error.issues[0]?.message || 'Invalid input';
+    const errorMessage = parsed.error.issues[0]?.message || "Invalid input";
     return {
       success: false,
       error: errorMessage,
@@ -60,7 +67,8 @@ export async function createLinkAction(input: CreateLinkInput): Promise<ActionRe
       },
     };
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to create link';
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to create link";
     return {
       success: false,
       error: errorMessage,
@@ -68,18 +76,20 @@ export async function createLinkAction(input: CreateLinkInput): Promise<ActionRe
   }
 }
 
-export async function updateLinkAction(input: UpdateLinkInput): Promise<ActionResult> {
+export async function updateLinkAction(
+  input: UpdateLinkInput,
+): Promise<ActionResult> {
   const { userId } = await auth();
   if (!userId) {
     return {
       success: false,
-      error: 'You must be logged in to edit a link',
+      error: "You must be logged in to edit a link",
     };
   }
 
   const parsed = updateLinkSchema.safeParse(input);
   if (!parsed.success) {
-    const errorMessage = parsed.error.issues[0]?.message || 'Invalid input';
+    const errorMessage = parsed.error.issues[0]?.message || "Invalid input";
     return {
       success: false,
       error: errorMessage,
@@ -90,7 +100,7 @@ export async function updateLinkAction(input: UpdateLinkInput): Promise<ActionRe
   if (!existingLink) {
     return {
       success: false,
-      error: 'Link not found',
+      error: "Link not found",
     };
   }
 
@@ -111,7 +121,8 @@ export async function updateLinkAction(input: UpdateLinkInput): Promise<ActionRe
       },
     };
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to update link';
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to update link";
     return {
       success: false,
       error: errorMessage,
@@ -119,18 +130,20 @@ export async function updateLinkAction(input: UpdateLinkInput): Promise<ActionRe
   }
 }
 
-export async function deleteLinkAction(input: DeleteLinkInput): Promise<DeleteActionResult> {
+export async function deleteLinkAction(
+  input: DeleteLinkInput,
+): Promise<DeleteActionResult> {
   const { userId } = await auth();
   if (!userId) {
     return {
       success: false,
-      error: 'You must be logged in to delete a link',
+      error: "You must be logged in to delete a link",
     };
   }
 
   const parsed = deleteLinkSchema.safeParse(input);
   if (!parsed.success) {
-    const errorMessage = parsed.error.issues[0]?.message || 'Invalid input';
+    const errorMessage = parsed.error.issues[0]?.message || "Invalid input";
     return {
       success: false,
       error: errorMessage,
@@ -141,7 +154,7 @@ export async function deleteLinkAction(input: DeleteLinkInput): Promise<DeleteAc
   if (!existingLink) {
     return {
       success: false,
-      error: 'Link not found',
+      error: "Link not found",
     };
   }
 
@@ -152,7 +165,8 @@ export async function deleteLinkAction(input: DeleteLinkInput): Promise<DeleteAc
       data: { id: parsed.data.id },
     };
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to delete link';
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to delete link";
     return {
       success: false,
       error: errorMessage,

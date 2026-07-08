@@ -1,7 +1,7 @@
-import { db } from '@/db';
-import { links, Link } from '@/db/schema';
-import { and, desc, eq } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
+import { db } from "@/db";
+import { links, Link } from "@/db/schema";
+import { and, desc, eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
 
 const SHORT_CODE_MAX_LENGTH = 20;
 const CUSTOM_SLUG_PATTERN = /^[a-zA-Z0-9_-]+$/;
@@ -11,11 +11,11 @@ type PgErrorWithCode = {
 };
 
 function isPgErrorWithCode(error: unknown): error is PgErrorWithCode {
-  return typeof error === 'object' && error !== null && 'code' in error;
+  return typeof error === "object" && error !== null && "code" in error;
 }
 
 function isUniqueViolationError(error: unknown): boolean {
-  return isPgErrorWithCode(error) && error.code === '23505';
+  return isPgErrorWithCode(error) && error.code === "23505";
 }
 
 /**
@@ -32,11 +32,11 @@ export async function createLink(
   customSlug?: string,
 ): Promise<Link> {
   if (!userId) {
-    throw new Error('User ID is required');
+    throw new Error("User ID is required");
   }
 
   if (!originalUrl) {
-    throw new Error('Original URL is required');
+    throw new Error("Original URL is required");
   }
 
   const normalizedCustomSlug = customSlug?.trim();
@@ -44,16 +44,20 @@ export async function createLink(
 
   if (normalizedCustomSlug) {
     if (normalizedCustomSlug.length > SHORT_CODE_MAX_LENGTH) {
-      throw new Error(`Custom slug must be ${SHORT_CODE_MAX_LENGTH} characters or fewer`);
+      throw new Error(
+        `Custom slug must be ${SHORT_CODE_MAX_LENGTH} characters or fewer`,
+      );
     }
 
     if (!CUSTOM_SLUG_PATTERN.test(normalizedCustomSlug)) {
-      throw new Error('Custom slug can only contain letters, numbers, hyphens, and underscores');
+      throw new Error(
+        "Custom slug can only contain letters, numbers, hyphens, and underscores",
+      );
     }
 
     const existingLink = await getLinkByShortCode(normalizedCustomSlug);
     if (existingLink) {
-      throw new Error('This custom slug is already in use');
+      throw new Error("This custom slug is already in use");
     }
 
     shortCode = normalizedCustomSlug;
@@ -62,16 +66,19 @@ export async function createLink(
   }
 
   try {
-    const result = await db.insert(links).values({
-      userId,
-      originalUrl,
-      shortCode,
-    }).returning();
+    const result = await db
+      .insert(links)
+      .values({
+        userId,
+        originalUrl,
+        shortCode,
+      })
+      .returning();
 
     return result[0];
   } catch (error) {
     if (isUniqueViolationError(error)) {
-      throw new Error('This custom slug is already in use');
+      throw new Error("This custom slug is already in use");
     }
     throw error;
   }
@@ -82,7 +89,9 @@ export async function createLink(
  * @param shortCode - The short code to look up
  * @returns The link record or null if not found
  */
-export async function getLinkByShortCode(shortCode: string): Promise<Link | null> {
+export async function getLinkByShortCode(
+  shortCode: string,
+): Promise<Link | null> {
   if (!shortCode) {
     return null;
   }
@@ -121,7 +130,10 @@ export async function getUserLinks(userId: string): Promise<Link[]> {
  * @param userId - Clerk user ID
  * @returns The link record or null if not found or not owned by user
  */
-export async function getUserLinkById(id: number, userId: string): Promise<Link | null> {
+export async function getUserLinkById(
+  id: number,
+  userId: string,
+): Promise<Link | null> {
   if (!id || !userId) {
     return null;
   }
@@ -151,20 +163,20 @@ export async function updateLink(
   customSlug?: string,
 ): Promise<Link> {
   if (!id) {
-    throw new Error('Link ID is required');
+    throw new Error("Link ID is required");
   }
 
   if (!userId) {
-    throw new Error('User ID is required');
+    throw new Error("User ID is required");
   }
 
   if (!originalUrl) {
-    throw new Error('Original URL is required');
+    throw new Error("Original URL is required");
   }
 
   const existingLink = await getUserLinkById(id, userId);
   if (!existingLink) {
-    throw new Error('Link not found');
+    throw new Error("Link not found");
   }
 
   const normalizedCustomSlug = customSlug?.trim();
@@ -172,17 +184,21 @@ export async function updateLink(
 
   if (normalizedCustomSlug) {
     if (normalizedCustomSlug.length > SHORT_CODE_MAX_LENGTH) {
-      throw new Error(`Custom slug must be ${SHORT_CODE_MAX_LENGTH} characters or fewer`);
+      throw new Error(
+        `Custom slug must be ${SHORT_CODE_MAX_LENGTH} characters or fewer`,
+      );
     }
 
     if (!CUSTOM_SLUG_PATTERN.test(normalizedCustomSlug)) {
-      throw new Error('Custom slug can only contain letters, numbers, hyphens, and underscores');
+      throw new Error(
+        "Custom slug can only contain letters, numbers, hyphens, and underscores",
+      );
     }
 
     if (normalizedCustomSlug !== existingLink.shortCode) {
       const slugOwner = await getLinkByShortCode(normalizedCustomSlug);
       if (slugOwner && slugOwner.id !== existingLink.id) {
-        throw new Error('This custom slug is already in use');
+        throw new Error("This custom slug is already in use");
       }
     }
 
@@ -201,13 +217,13 @@ export async function updateLink(
       .returning();
 
     if (!result[0]) {
-      throw new Error('Link not found');
+      throw new Error("Link not found");
     }
 
     return result[0];
   } catch (error) {
     if (isUniqueViolationError(error)) {
-      throw new Error('This custom slug is already in use');
+      throw new Error("This custom slug is already in use");
     }
     throw error;
   }
@@ -221,13 +237,13 @@ export async function updateLink(
  */
 export async function deleteLink(id: number): Promise<void> {
   if (!id) {
-    throw new Error('Link ID is required');
+    throw new Error("Link ID is required");
   }
 
   const result = await db.delete(links).where(eq(links.id, id));
 
   if (result.rowCount === 0) {
-    throw new Error('Link not found');
+    throw new Error("Link not found");
   }
 }
 
@@ -241,11 +257,7 @@ export async function getLinkById(id: number): Promise<Link | null> {
     return null;
   }
 
-  const result = await db
-    .select()
-    .from(links)
-    .where(eq(links.id, id))
-    .limit(1);
+  const result = await db.select().from(links).where(eq(links.id, id)).limit(1);
 
   return result[0] || null;
 }

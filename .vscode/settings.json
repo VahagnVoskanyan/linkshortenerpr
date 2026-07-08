@@ -1,12 +1,12 @@
 {
-    "chat.mcp.serverSampling": {
-        "linkshortenerpr/.vscode/mcp.json: neondatabase/mcp-server-neon": {
-            "allowedModels": [
-                "copilot/auto",
-                "copilotcli/claude-haiku-4.5",
-                "claude-code/claude-haiku-4.5",
-                "copilot/claude-haiku-4.5"
-            ]
-        }
+  "chat.mcp.serverSampling": {
+    "linkshortenerpr/.vscode/mcp.json: neondatabase/mcp-server-neon": {
+      "allowedModels": [
+        "copilot/auto",
+        "copilotcli/claude-haiku-4.5",
+        "claude-code/claude-haiku-4.5",
+        "copilot/claude-haiku-4.5"
+      ]
     }
+  }
 }

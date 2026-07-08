@@ -1,36 +1,31 @@
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { SignInButton, SignUpButton } from '@clerk/nextjs';
-import { Link2, Zap, Share2, BarChart3 } from 'lucide-react';
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { Link2, Zap, Share2 } from "lucide-react";
 
 export default async function Home() {
   const { userId } = await auth();
 
   if (userId) {
-    redirect('/dashboard');
+    redirect("/dashboard");
   }
 
   const features = [
     {
       icon: Zap,
-      title: 'Lightning Fast',
-      description: 'Create shortened links instantly with just a few clicks',
+      title: "Lightning Fast",
+      description: "Create shortened links instantly with just a few clicks",
     },
     {
       icon: Share2,
-      title: 'Shareable Links',
-      description: 'Generate clean, memorable short URLs perfect for sharing',
-    },
-    {
-      icon: BarChart3,
-      title: 'Track Performance',
-      description: 'Monitor clicks and get insights into link engagement',
+      title: "Shareable Links",
+      description: "Generate clean, memorable short URLs perfect for sharing",
     },
     {
       icon: Link2,
-      title: 'Secure & Reliable',
-      description: 'Your links are safe, secure, and always accessible',
+      title: "Secure & Reliable",
+      description: "Your links are safe, secure, and always accessible",
     },
   ];
 
@@ -42,7 +37,7 @@ export default async function Home() {
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-                Shorten Your URLs,{' '}
+                Shorten Your URLs,{" "}
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   Share Everywhere
                 </span>
@@ -80,11 +75,11 @@ export default async function Home() {
                 Why Choose Link Shortener?
               </h2>
               <p className="text-xl text-muted-foreground">
-                Everything you need to shorten, share, and track your links
+                Everything you need to shorten and share your links
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature) => {
                 const IconComponent = feature.icon;
                 return (
@@ -125,19 +120,20 @@ export default async function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  step: '1',
-                  title: 'Paste Your URL',
-                  description: 'Enter any long URL you want to shorten',
+                  step: "1",
+                  title: "Paste Your URL",
+                  description: "Enter any long URL you want to shorten",
                 },
                 {
-                  step: '2',
-                  title: 'Click Shorten',
-                  description: 'Generate your custom short link instantly',
+                  step: "2",
+                  title: "Click Shorten",
+                  description: "Generate your custom short link instantly",
                 },
                 {
-                  step: '3',
-                  title: 'Share & Track',
-                  description: 'Share your link and monitor its performance',
+                  step: "3",
+                  title: "Copy & Share",
+                  description:
+                    "Use your short link anywhere you want to share it",
                 },
               ].map((item) => (
                 <div key={item.step} className="space-y-4">

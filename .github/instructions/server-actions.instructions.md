@@ -32,7 +32,9 @@ type CreateLinkInput = {
   slug: string;
 };
 
-export async function createLink(input: CreateLinkInput): Promise<ActionResult> {}
+export async function createLink(
+  input: CreateLinkInput,
+): Promise<ActionResult> {}
 
 // ❌ BAD
 export async function createLink(formData: FormData) {}
@@ -43,7 +45,7 @@ export async function createLink(formData: FormData) {}
 All inputs **must** be validated using Zod inside the server action.
 
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 const createLinkSchema = z.object({
   url: z.string().url(),
@@ -64,12 +66,12 @@ export async function createLink(input: CreateLinkInput) {
 Every server action **must** verify a logged-in user before any database operation.
 
 ```typescript
-import { auth } from '@clerk/nextjs/server';
+import { auth } from "@clerk/nextjs/server";
 
 export async function createLink(input: CreateLinkInput) {
   const { userId } = await auth();
   if (!userId) {
-    return { success: false, error: 'Unauthorized' };
+    return { success: false, error: "Unauthorized" };
   }
   // proceed with DB operations
 }
@@ -110,5 +112,5 @@ Follow the project's consistent response format:
 return { success: true, data: result };
 
 // Failure
-return { success: false, error: 'Something went wrong' };
+return { success: false, error: "Something went wrong" };
 ```
