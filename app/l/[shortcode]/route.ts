@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getLinkByShortCode } from "@/lib/links";
 
+const ALLOWED_REDIRECT_PROTOCOLS = new Set(["http:", "https:"]);
+
 type RouteContext = {
   params: Promise<{ shortcode: string }>;
 };
@@ -27,6 +29,20 @@ export async function GET(
 
   try {
     const destinationUrl = new URL(link.originalUrl);
+
+    if (!ALLOWED_REDIRECT_PROTOCOLS.has(destinationUrl.protocol)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "INVALID_DESTINATION_PROTOCOL",
+            message: "Stored destination URL protocol is not allowed",
+          },
+        },
+        { status: 400 },
+      );
+    }
+
     return NextResponse.redirect(destinationUrl);
   } catch {
     return NextResponse.json(

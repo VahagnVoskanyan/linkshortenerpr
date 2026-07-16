@@ -1,7 +1,25 @@
 import { z } from "zod";
 
+const ALLOWED_URL_PROTOCOLS = ["http:", "https:"] as const;
+
+function hasAllowedProtocol(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return ALLOWED_URL_PROTOCOLS.includes(
+      parsed.protocol as (typeof ALLOWED_URL_PROTOCOLS)[number],
+    );
+  } catch {
+    return false;
+  }
+}
+
 export const createLinkSchema = z.object({
-  originalUrl: z.string().url("Please enter a valid URL"),
+  originalUrl: z
+    .string()
+    .url("Please enter a valid URL")
+    .refine(hasAllowedProtocol, {
+      message: "URL must use http or https",
+    }),
   customSlug: z
     .string()
     .trim()
@@ -16,7 +34,12 @@ export const createLinkSchema = z.object({
 
 export const updateLinkSchema = z.object({
   id: z.number().int().positive("Invalid link ID"),
-  originalUrl: z.string().url("Please enter a valid URL"),
+  originalUrl: z
+    .string()
+    .url("Please enter a valid URL")
+    .refine(hasAllowedProtocol, {
+      message: "URL must use http or https",
+    }),
   customSlug: z
     .string()
     .trim()
